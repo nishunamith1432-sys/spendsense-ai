@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpendSense AI — Smart Spending</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">🌱 SpendSense <span>AI</span></div>
+  <p class="tagline">Smart spending. Brighter future.</p>
+  <nav class="nav">
+    <button class="active" data-view="home">⌂ &nbsp; Home</button>
+    <button data-view="transactions">▤ &nbsp; Transactions</button>
+    <button data-view="budgets">▦ &nbsp; Budgets</button>
+    <button data-view="afford">✦ &nbsp; Can I afford this?</button>
+    <button data-view="savings">◉ &nbsp; Savings planner</button>
+    <button data-view="settings">⚙ &nbsp; Setup & settings</button>
+  </nav>
+  <div class="side-note">🌿 Small steps today build better money habits tomorrow.</div>
+</aside>
+<main class="main">
+  <div class="top"><div><h1 id="pageTitle">Welcome back! 👋</h1><div class="sub" id="pageSub">Here's your money at a glance. You're in control.</div></div><span class="pill">● Your data stays in this browser</span></div>
+
+  <section class="view active" id="view-home">
+    <div class="grid">
+      <div class="card"><div class="metric-label">Income this month</div><div class="metric green" id="incomeTotal">₹0</div><div class="small">Money received</div></div>
+      <div class="card"><div class="metric-label">Expenses this month</div><div class="metric red" id="expenseTotal">₹0</div><div class="small">Money you've spent</div></div>
+      <div class="card"><div class="metric-label">Remaining balance</div><div class="metric blue" id="balanceTotal">₹0</div><div class="small" id="balanceHint">Income minus expenses</div></div>
+      <div class="card"><div class="metric-label">Savings goal</div><div class="metric purple" id="goalTotal">₹0</div><div class="small" id="goalHint">Set a goal in settings</div></div>
+    </div>
+    <div class="section-grid">
+      <div class="card"><h2>Safe-to-Spend Meter</h2><p class="small">A simple estimate after your planned essentials and savings.</p><div class="metric green" id="safeTotal">₹0</div><div class="meter"><div id="safeBar"></div></div><div class="row"><span>Balance available</span><strong id="safeBalance">₹0</strong></div><div class="row"><span>Essentials left to pay</span><strong id="safeEssentials">₹0</strong></div><div class="row"><span>Extra savings planned</span><strong id="safeSavings">₹0</strong></div><div class="notice" id="safeMessage">Add your income and essentials in Setup to get a useful estimate.</div></div>
+      <div class="card"><h2>Spending overview</h2><p class="small">Where your money is going this month.</p><div id="categoryBreakdown" class="category"><div class="empty">Add an expense to see your spending breakdown.</div></div></div>
+      <div class="card assistant"><div class="bot-head"><div class="bot-icon">🤖</div><div><h2 style="margin:0">Your money assistant</h2><div class="small">Ask a question in simple words</div></div></div><div class="chat" id="chat"><div class="bubble">Hi! I'm SpendSense. 🌱 Add your income and expenses, or ask me things like “Can I spend ₹500?”</div></div><form class="chat-form" id="chatForm"><input class="field" id="chatInput" placeholder="Ask about your money…" autocomplete="off"><button class="send">Send</button></form><div class="small" style="margin-top:8px">Try: “Can I spend ₹500?” or “How much have I spent?”</div></div>
+    </div>
+    <div class="lower-grid">
+      <div class="card"><h2>Recent transactions</h2><div id="recentTransactions" class="transactions"><div class="empty">No transactions yet. Add one below.</div></div><div class="form-actions"><button class="primary" onclick="showView('transactions')">＋ Add transaction</button></div></div>
+      <div class="card"><h2>Quick actions</h2><p class="small">Record it once; your dashboard updates automatically.</p><div class="quick"><button class="action" onclick="showView('transactions');setType('expense')"><strong>＋ Add expense</strong><small>Record money spent</small></button><button class="action" onclick="showView('transactions');setType('income')"><strong>↗ Add income</strong><small>Record money received</small></button><button class="action" onclick="showView('budgets')"><strong>▦ Set budgets</strong><small>Plan category limits</small></button><button class="action" onclick="showView('savings')"><strong>◉ Savings planner</strong><small>Plan a future goal</small></button></div></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-transactions">
+    <div class="card"><h2>Track your money</h2><p class="small">Record real income or expenses here. These entries update your dashboard automatically.</p>
+      <form id="txForm" class="form-grid">
+        <label>Transaction type<select id="txType"><option value="expense">Expense — money spent</option><option value="income">Income — money received</option></select></label>
+        <label>Amount (₹)<input class="field" id="txAmount" type="number" min="1" step="0.01" placeholder="e.g. 150" required></label>
+        <label>Description<input class="field" id="txDescription" maxlength="70" placeholder="e.g. Lunch, bus ticket" required></label>
+        <label>Category<select id="txCategory"><option>Food</option><option>Transport</option><option>Shopping</option><option>Education</option><option>Bills</option><option>Health</option><option>Entertainment</option><option>Other</option><option>Salary / Allowance</option><option>Gift</option></select></label>
+        <label>Date<input class="field" id="txDate" type="date" required></label>
+        <div class="full form-actions"><button class="primary">Save transaction</button><button type="reset" class="secondary">Clear form</button></div>
+      </form>
+    </div>
+    <div class="card" style="margin-top:15px"><h2>All transactions</h2><div id="allTransactions" class="transactions"><div class="empty">No transactions yet.</div></div></div>
+  </section>
+
+  <section class="view" id="view-budgets">
+    <div class="card"><h2>Plan your monthly budgets</h2><p class="small">A budget is a spending limit, not an expense; adding a transaction updates the amount used.</p>
+      <form id="budgetForm" class="form-grid"><label>Category<select id="budgetCategory"><option>Food</option><option>Transport</option><option>Shopping</option><option>Education</option><option>Bills</option><option>Health</option><option>Entertainment</option><option>Other</option></select></label><label>Monthly limit (₹)<input class="field" id="budgetAmount" type="number" min="1" placeholder="e.g. 1000" required></label><div class="full form-actions"><button class="primary">Save budget</button></div></form>
+    </div>
+    <div class="card" style="margin-top:15px"><h2>Your budget progress</h2><div id="budgetList"><div class="empty">No budgets set yet. Create one above.</div></div></div>
+  </section>
+
+  <section class="view" id="view-afford">
+    <div class="card"><h2>Can I afford this? 🛍️</h2><p class="small">Try a purchase before spending. This is only a simulation; it will not add a transaction.</p><form id="affordForm" class="form-grid"><label>What do you want to buy?<input class="field" id="purchaseName" placeholder="e.g. Headphones" required></label><label>Price (₹)<input class="field" id="purchasePrice" type="number" min="1" placeholder="e.g. 1500" required></label><div class="full form-actions"><button class="primary">Check my purchase</button></div></form><div id="affordResult" class="notice hidden"></div></div>
+  </section>
+
+  <section class="view" id="view-savings">
+    <div class="card"><h2>Savings planner 🌱</h2><p class="small">Try a monthly saving amount and see how it may grow; this does not move or deduct real money.</p><form id="savingForm" class="form-grid"><label>Your savings goal (₹)<input class="field" id="savingGoal" type="number" min="0" placeholder="e.g. 10000" required></label><label>Already saved (₹)<input class="field" id="savedAlready" type="number" min="0" placeholder="e.g. 1000" required></label><label>Save each month (₹)<input class="field" id="saveMonthly" type="number" min="0" placeholder="e.g. 500" required></label><div class="full form-actions"><button class="primary">Calculate my plan</button></div></form><div id="savingResult" class="notice hidden"></div></div>
+  </section>
+
+  <section class="view" id="view-settings">
+    <div class="card"><h2>Quick setup</h2><p class="small">Enter your monthly money plan once. You can change it anytime; use ₹0 if a field doesn't apply.</p><form id="settingsForm" class="form-grid"><label>Monthly income / allowance (₹)<input class="field" id="monthlyIncome" type="number" min="0" placeholder="e.g. 5000" required></label><label>Monthly essential expenses still to pay (₹)<input class="field" id="essentials" type="number" min="0" placeholder="e.g. 800" required></label><label>Monthly savings target (₹)<input class="field" id="monthlySavings" type="number" min="0" placeholder="e.g. 1000" required></label><label>Main savings goal name<input class="field" id="goalName" maxlength="50" placeholder="e.g. New laptop"></label><label class="full">Note (optional)<input class="field" id="setupNote" maxlength="100" placeholder="e.g. I get allowance at the beginning of each month"></label><div class="full form-actions"><button class="primary">Save setup</button><button type="button" class="secondary" id="resetDemo">Reset all data</button></div></form><div class="notice">Important: enter only essential expenses that are <strong>still unpaid</strong> here. If you already record a bill as an expense, don't include that same bill again in this field. This avoids counting it twice.</div></div>
+  </section>
+  <div class="footer">SpendSense AI is a student prototype, not financial advice. Data is saved in this browser only.</div>
+</main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
