@@ -6,11 +6,30 @@
 <title>SpendSense AI — Smart Spending</title>
 <link rel="stylesheet" href="style.css">
 
+<style>
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+</style>
+
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand">🌱 SpendSense <span>AI</span></div>
+  <div class="brand">
+    <img src="./spendsense-logo.png" alt="SpendSense AI logo" class="brand-logo">
+    <div>SpendSense <span>AI</span></div>
+  </div>
   <p class="tagline">Smart spending. Brighter future.</p>
   <nav class="nav">
     <button class="active" data-view="home">⌂ &nbsp; Home</button>
@@ -75,7 +94,7 @@
   <section class="view" id="view-settings">
     <div class="card"><h2>Quick setup</h2><p class="small">Enter your monthly money plan once. You can change it anytime; use ₹0 if a field doesn't apply.</p><form id="settingsForm" class="form-grid"><label>Monthly income / allowance (₹)<input class="field" id="monthlyIncome" type="number" min="0" placeholder="e.g. 5000" required></label><label>Monthly essential expenses still to pay (₹)<input class="field" id="essentials" type="number" min="0" placeholder="e.g. 800" required></label><label>Monthly savings target (₹)<input class="field" id="monthlySavings" type="number" min="0" placeholder="e.g. 1000" required></label><label>Main savings goal name<input class="field" id="goalName" maxlength="50" placeholder="e.g. New laptop"></label><label class="full">Note (optional)<input class="field" id="setupNote" maxlength="100" placeholder="e.g. I get allowance at the beginning of each month"></label><div class="full form-actions"><button class="primary">Save setup</button><button type="button" class="secondary" id="resetDemo">Reset all data</button></div></form><div class="notice">Important: enter only essential expenses that are <strong>still unpaid</strong> here. If you already record a bill as an expense, don't include that same bill again in this field. This avoids counting it twice.</div></div>
   </section>
-  <div class="footer">SpendSense AI is a student prototype, not financial advice. Data is saved in this browser only.</div>
+  <div class="footer">SpendSense AI is a personal finance prototype, not financial advice. Data is saved in this browser only.</div>
 </main>
 </div>
 <script src="script.js"></script>
